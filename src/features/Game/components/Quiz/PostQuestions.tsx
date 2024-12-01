@@ -12,21 +12,11 @@ import NFTThumbnail from '@/features/Game/components/Quiz/NFTThumbnail';
 import { useQuizContext } from '@/features/Game/contexts/QuizContext';
 
 const PostQuestions = () => {
-  const {
-    preQuestions,
-    reset,
-    depositFunds,
-    userTokenBalance,
-    userDepositedBalance,
-    poolBalance,
-    withdrawlFunds,
-  } = useQuizContext();
+  const { preQuestions, reset } = useQuizContext();
 
   const handleQuizDone = async () => {
-    await withdrawlFunds(399, 1);
     reset();
   };
-
   return (
     <div
       className={clsx(
@@ -43,9 +33,7 @@ const PostQuestions = () => {
       </span>
       <div className='text-gradient-primary flex w-full flex-col items-center gap-1'>
         <span className='h2 block font-secondary'>Good Job!</span>
-        <span className='font-secondary'>
-          You Get {Math.floor(100 + Math.random() * 1001)} Quiz Points
-        </span>
+        <span className='font-secondary'>You Get +2019 Quiz Points</span>
       </div>
 
       <NFTThumbnail className='mt-6' NFTFlowId={preQuestions.NFTFlowId} />
