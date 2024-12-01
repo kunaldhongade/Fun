@@ -57,7 +57,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           'transition-colors duration-75',
           //#region  //*=========== Size ===========
           [
-            size === 'lg' && ['py-4 px-3', 'text-base md:text-lg'],
+            size === 'lg' && ['px-3 py-4', 'text-base md:text-lg'],
             size === 'base' && ['px-4 py-1.5', 'text-sm md:text-base'],
             size === 'sm' && ['px-2 py-1', 'text-xs md:text-sm'],
           ],
@@ -65,15 +65,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           //#region  //*=========== Variants ===========
           [
             variant === 'primary' && [
-              'bg-gradient-primary text-black',
-              'border border-primary-600',
-              'hover:bg-primary-600 hover:text-white',
+              'border border-primary-500',
+              'hover:bg-primary-500 hover:text-white',
               'active:bg-primary-700',
               'disabled:bg-primary-700',
             ],
             variant === 'outline' && [
               'border border-primary-500',
-              'hover:bg-primary-600 hover:text-white disabled:bg-gray-500',
+              'hover:bg-primary-500 hover:text-white disabled:bg-gray-500',
               isDarkBg &&
                 'hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800',
             ],
@@ -115,7 +114,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {isLoading && (
           <div
             className={clsxm(
-              'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+              'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
               {
                 'text-white': ['primary', 'dark'].includes(variant),
                 'text-black': ['light'].includes(variant),
@@ -148,8 +147,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           <span
             className={clsx([
               'w-full text-center',
-              variant === 'dark' && 'text-gradient-primary',
-              variant === 'outline' && 'text-gradient-primary',
+              variant === 'dark' && 'text-white',
+              variant === 'outline' && 'text-white',
             ])}
           >
             {children}

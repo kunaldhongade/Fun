@@ -18,9 +18,8 @@ import PaymentTypes from '@/features/Game/components/payment/PaymentTypes';
 import { useQuizContext } from '@/features/Game/contexts/QuizContext';
 
 const Payment = () => {
-  const { userTokenBalance,
-    userDepositedBalance,
-    poolBalance, } = useQuizContext();
+  const { userTokenBalance, userDepositedBalance, poolBalance } =
+    useQuizContext();
   return (
     <div>
       {Capacitor.getPlatform() == 'ios' ? (
@@ -38,9 +37,9 @@ const Payment = () => {
               <span className='text-primary-500'>
                 <MoneyBag />
               </span>
-              <span className='text-lg text-primary-500'>Balance</span>
+              t<span className='text-lg text-primary-500'>Balance</span>
             </div>
-            <Currency />
+            {/* <Currency /> */}
           </div>
         </div>
       ) : (
@@ -54,7 +53,7 @@ const Payment = () => {
             </span>
             <span className='text-lg text-primary-500'>Balance</span>
           </div>
-          <Currency />
+          {/* <Currency /> */}
         </div>
       )}
       {createPortal(<Menu />, document.body)}
@@ -84,7 +83,7 @@ const Payment = () => {
               <span className='text-3xl'>
                 <OutputSVG />
               </span>
-              <span className='font-bold'>Transaction History</span>
+              <span className='font-bold'>Txn History</span>
             </div>
           </Tab>
         </Tabs>

@@ -1,14 +1,16 @@
 import { Capacitor } from '@capacitor/core';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CiMedal } from 'react-icons/ci';
 import { IoDiamondOutline } from 'react-icons/io5';
 import { RiVipCrownLine } from 'react-icons/ri';
+import { useAccount } from 'wagmi';
 
 import Account from '@/components/account/Account';
 import TextField from '@/components/inputs/TextField';
 import Menu from '@/components/menu/Menu';
+import NextImage from '@/components/NextImage';
 import StoryBar from '@/components/story/StoryBar';
 import Tab from '@/components/tabs/Tab';
 import TabGroup from '@/components/tabs/TabGroup';
@@ -17,15 +19,26 @@ import TabPanels from '@/components/tabs/TabPanels';
 import Tabs from '@/components/tabs/Tabs';
 
 import { storyData } from '@/constants/mocks/storiesMock';
-import Currency from '@/features/Game/components/currency/Currency';
 import NFTS from '@/features/Game/components/leader-board/NFTS';
 import NFTPreview from '@/features/Game/components/NFTpreview/NFTPreview';
+import NFTThumbnail from '@/features/Game/components/NFTThumbnail';
 import LeaderBoardTable from '@/features/Game/components/Quiz/leader-board-table/LeaderBoardTable';
 import { categories } from '@/features/Game/constants/categories';
 
 const LeaderBoard = () => {
   const [showNFTPreview, setShowNFTPreview] = useState(false);
   const [NFTFlowId, setNFTFlowId] = useState<string | undefined>();
+  const [uploadedVideos, setUploadedVideos] = useState([]);
+  const { address, isConnected } = useAccount(); // Get the wallet address
+  useEffect(() => {
+    // Load previously uploaded videos for this wallet from localStorage
+    const storedVideos = JSON.parse(
+      localStorage.getItem('uploadedVideos') || '{}'
+    );
+    if (address && storedVideos[address]) {
+      setUploadedVideos(storedVideos[address]);
+    }
+  }, [address]);
 
   const main = () => {
     return (
@@ -34,10 +47,22 @@ const LeaderBoard = () => {
           className={
             Capacitor.isNativePlatform()
               ? 'sticky top-0 z-[999] flex flex-col bg-dark pb-4'
-              : 'flex flex-col gap-4'
+              : 'flex flex-col gap-4 '
           }
         >
-          <ConnectButton />
+          <div className='flex items-center justify-between p-2'>
+            {isConnected && (
+              <NextImage
+                src='/images/demo-profile.png'
+                alt='Image placeholder'
+                className='relative h-14 w-14 rounded-full border-2 border-primary-500'
+                imgClassName='object-cover rounded-full'
+                fill
+              />
+            )}
+
+            <ConnectButton />
+          </div>
 
           <div className='mx-auto w-[85vw] mobile-demo:w-[450px]'>
             <TextField
@@ -51,7 +76,7 @@ const LeaderBoard = () => {
         <StoryBar stories={storyData} />
 
         {/* Tab List */}
-        <Tab className='!mt-5 flex max-w-[450px] flex-col items-center gap-4 overflow-hidden mobile-m:flex-row'>
+        <div className='!mt-5 flex flex-col items-center gap-4 overflow-hidden mobile-m:flex-row'>
           {categories.map((category, index) => (
             <Tab
               key={index}
@@ -62,8 +87,8 @@ const LeaderBoard = () => {
               </div>
             </Tab>
           ))}
-        </Tab>
-        {Capacitor.getPlatform() === 'ios' ? (
+        </div>
+        {/* {Capacitor.getPlatform() === 'ios' ? (
           <div
             className='sticky top-0 z-[999] flex w-full bg-dark pb-4'
             style={{
@@ -85,7 +110,7 @@ const LeaderBoard = () => {
             </div>
           </div>
         ) : (
-          <div className='flex items-center justify-center gap-1'>
+          <div className='flex items-center justify-center gap-1 py-4'>
             <div className='flex w-full items-center justify-center gap-2'>
               <span className='text-2xl text-primary-500'>
                 <CiMedal />
@@ -96,7 +121,7 @@ const LeaderBoard = () => {
             </div>
             <Currency />
           </div>
-        )}
+        )} */}
 
         <TabGroup>
           {Capacitor.getPlatform() === 'ios' ? (
@@ -144,6 +169,35 @@ const LeaderBoard = () => {
                 setShowNFTPreview={setShowNFTPreview}
                 setNFTFlowId={setNFTFlowId}
               />
+
+              {/* Display Uploaded Videos */}
+              {uploadedVideos.length > 0 && (
+                <div className='mx-auto my-10 overflow-hidden rounded-2xl sm:w-[26rem] sm:max-w-lg'>
+                  <div className='mt-4 flex flex-col items-center gap-6'>
+                    {uploadedVideos.map((video, index) => (
+                      // <video
+                      //   key={index}
+                      //   controls
+                      //   autoPlay
+                      //   src={video}
+                      //   className='rounded-lg shadow-lg'
+                      //   style={{
+                      //     width: '80%',
+                      //     maxWidth: '600px',
+                      //     height: 'auto',
+                      //   }}
+                      // />
+
+                      <NFTThumbnail
+                        key={index}
+                        NFTFlowId='3208'
+                        showPrice={true}
+                        // onClick={() => handleNFTThumbnailClick(NFTId)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </TabPanel>
             <TabPanel>
               <Account />
