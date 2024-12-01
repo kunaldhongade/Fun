@@ -12,21 +12,11 @@ import NFTThumbnail from '@/features/Game/components/Quiz/NFTThumbnail';
 import { useQuizContext } from '@/features/Game/contexts/QuizContext';
 
 const PostQuestions = () => {
-  const {
-    preQuestions,
-    reset,
-    depositFunds,
-    userTokenBalance,
-    userDepositedBalance,
-    poolBalance,
-    withdrawlFunds,
-  } = useQuizContext();
+  const { preQuestions, reset } = useQuizContext();
 
   const handleQuizDone = async () => {
-    await withdrawlFunds(399, 1);
     reset();
   };
-
   return (
     <div
       className={clsx(
@@ -36,7 +26,7 @@ const PostQuestions = () => {
       )}
     >
       <span
-        className='absolute top-0 right-0 text-3xl'
+        className='absolute right-0 top-0 text-3xl'
         onClick={() => handleQuizDone()}
       >
         <AiOutlineClose />

@@ -12,7 +12,6 @@ import TabsContextProvider from '@/features/Game/contexts/TabsContext';
 import Game from '@/features/Game/Game';
 
 import { Platform } from '../constants/types';
-import Authentication from '@/features/auth/Authentication';
 
 export default function HomePage() {
   const [loginReady, setLoginReady] = useState(true);
@@ -35,7 +34,7 @@ export default function HomePage() {
     }
     // Native platforms can't have gifs as loading screens
     if (loginReady || ['ios', 'android'].includes(platform ?? '')) {
-      if (true) {
+      if (loginReady) {
         return (
           <QuizContextProvider>
             <TabsContextProvider>
@@ -103,7 +102,7 @@ export default function HomePage() {
           {renderPage()}
         </main>
       ) : (
-        <main className='mx-auto flex h-full max-w-[90vw] flex-col pt-8 pb-10 mobile-demo:max-w-[450px]'>
+        <main className='mx-auto flex h-full max-w-[90vw] flex-col pb-10 pt-8 mobile-demo:max-w-[450px]'>
           {renderPage()}
         </main>
       )}

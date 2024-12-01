@@ -1,5 +1,6 @@
 import { Capacitor } from '@capacitor/core';
 import clsx from 'clsx';
+import { BigNumber } from 'ethers';
 import { useRef, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 
@@ -16,8 +17,7 @@ type Props = {
 };
 
 const NFTPreview = ({ setShowNFTPreview }: Props) => {
-  const { preQuestions, setActiveStep, NFTInfo, depositFunds, poolBalance } =
-    useQuizContext();
+  const { preQuestions, NFTInfo, depositFunds, poolBalance } = useQuizContext();
   const [showInfo, setShowInfo] = useState(false);
   const [makeBet, setMakeBet] = useState(0);
   //#region  //*=========== video state ===========
@@ -27,12 +27,13 @@ const NFTPreview = ({ setShowNFTPreview }: Props) => {
   const [currentTime, setCurrentTime] = useState(0);
   //#endregion  //*======== video state ===========
 
-  const handleBetClick = async (amount) => {
-    await depositFunds(amount, 1);
+  const handleBetClick = async (amount: number) => {
+    await depositFunds({ amount: BigNumber.from(amount), poolId: 1 });
     setShowNFTPreview(false);
   };
-  const handleMakeBet = (e) => {
-    setMakeBet(e.target.value);
+
+  const handleMakeBet = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMakeBet(Number(e.target.value));
   };
 
   return (
@@ -115,7 +116,7 @@ const NFTPreview = ({ setShowNFTPreview }: Props) => {
             </div>
             <div className='grid grid-cols-2 items-center justify-between gap-4 '>
               <p className='text-2xs'>{NFTInfo.NFTDescription}</p>
-              <div className='w-full items-center rounded-full bg-gradient-primary py-1.5 px-1.5 text-black'>
+              <div className='w-full items-center rounded-full bg-gradient-primary px-1.5 py-1.5 text-black'>
                 <div className='col-span-3 flex w-full flex-col justify-center'>
                   <input
                     placeholder='Enter Bet'

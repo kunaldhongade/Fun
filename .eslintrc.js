@@ -35,6 +35,8 @@ module.exports = {
         args: 'after-used',
         argsIgnorePattern: '^_',
       },
+      'error',
+      { varsIgnorePattern: '^_' },
     ],
     //#endregion  //*======== Unused Import ===========
 

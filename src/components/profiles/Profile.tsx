@@ -10,21 +10,22 @@ import NextImage from '@/components/NextImage';
 
 const Profile = () => {
   const { address } = useAccount(); // Get the wallet address
-  const [videoFile, setVideoFile] = useState(null);
-  const [uploadedVideos, setUploadedVideos] = useState([]);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [uploadedVideos, setUploadedVideos] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     // Load previously uploaded videos for this wallet from localStorage
-    const storedVideos =
-      JSON.parse(localStorage.getItem('uploadedVideos')) || {};
+    const storedVideos = JSON.parse(
+      localStorage.getItem('uploadedVideos') || '{}'
+    );
     if (address && storedVideos[address]) {
       setUploadedVideos(storedVideos[address]);
     }
   }, [address]);
 
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
     setVideoFile(file);
   };
 
@@ -57,8 +58,9 @@ const Profile = () => {
       const videoURL = `https://gateway.pinata.cloud/ipfs/${fileHash}`;
 
       // Save video URL and wallet address association in localStorage
-      const storedVideos =
-        JSON.parse(localStorage.getItem('uploadedVideos')) || {};
+      const storedVideos = JSON.parse(
+        localStorage.getItem('uploadedVideos') || '{}'
+      );
       if (!storedVideos[address]) storedVideos[address] = [];
       storedVideos[address].push(videoURL);
       localStorage.setItem('uploadedVideos', JSON.stringify(storedVideos));
@@ -67,7 +69,11 @@ const Profile = () => {
       alert('File uploaded successfully!');
       setLoading(false);
     } catch (error) {
-      console.error('Error uploading file: ', error);
+      if (error instanceof Error) {
+        alert('Error uploading file: ' + error.message);
+      } else {
+        alert('Error uploading file');
+      }
       alert('Failed to upload the file to Pinata.');
       setLoading(false);
     }
@@ -104,7 +110,7 @@ const Profile = () => {
           <span className='block'>{address ? address : '.Dev'}</span>
           <ConnectButton showBalance={false} />
           <div className='space-y-6 px-6 py-8'>
-            <div className='relative bg-primary-500 rounded py-5 pl-8 text-xl font-semibold uppercase tracking-wider text-white'>
+            <div className='relative rounded bg-primary-500 py-5 pl-8 text-xl font-semibold uppercase tracking-wider text-white'>
               Upload Files
             </div>
             <div className='flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 px-6 py-8'>

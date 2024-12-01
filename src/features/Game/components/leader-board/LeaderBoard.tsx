@@ -1,4 +1,5 @@
 import { Capacitor } from '@capacitor/core';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CiMedal } from 'react-icons/ci';
@@ -6,22 +7,21 @@ import { IoDiamondOutline } from 'react-icons/io5';
 import { RiVipCrownLine } from 'react-icons/ri';
 
 import Account from '@/components/account/Account';
+import TextField from '@/components/inputs/TextField';
 import Menu from '@/components/menu/Menu';
+import StoryBar from '@/components/story/StoryBar';
 import Tab from '@/components/tabs/Tab';
 import TabGroup from '@/components/tabs/TabGroup';
 import TabPanel from '@/components/tabs/TabPanel';
 import TabPanels from '@/components/tabs/TabPanels';
 import Tabs from '@/components/tabs/Tabs';
 
+import { storyData } from '@/constants/mocks/storiesMock';
 import Currency from '@/features/Game/components/currency/Currency';
 import NFTS from '@/features/Game/components/leader-board/NFTS';
 import NFTPreview from '@/features/Game/components/NFTpreview/NFTPreview';
 import LeaderBoardTable from '@/features/Game/components/Quiz/leader-board-table/LeaderBoardTable';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import TextField from '@/components/inputs/TextField';
-import StoryBar from '@/components/story/StoryBar';
 import { categories } from '@/features/Game/constants/categories';
-import { storyData } from '@/constants/mocks/storiesMock';
 
 const LeaderBoard = () => {
   const [showNFTPreview, setShowNFTPreview] = useState(false);

@@ -1,23 +1,32 @@
-import React, { ReactNode, useContext, useState, useEffect } from 'react';
+import { BigNumber, ethers } from 'ethers';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import { useAccount, useNetwork } from 'wagmi';
 
+import {
+  mainContractABI,
+  mainContractAddress,
+  tokenAbi,
+  tokenAddress,
+} from '@/contract-constant';
 import {
   NFTInfo,
   PreQuestions,
   Question,
   Quiz,
 } from '@/features/Game/types/Types';
+import { useEthersSigner } from '@/utils/signer';
 
 import { PostQuestions } from '../types/Types';
-import {
-  tokenAddress,
-  tokenAbi,
-  mainContractABI,
-  mainContractAddress,
-} from '@/contract-constant';
 
-import { useAccount, usePublicClient, useNetwork } from 'wagmi';
-import { useEthersSigner } from '@/utils/signer';
-import { ethers, BigNumber } from 'ethers';
+interface DepositFundsParams {
+  amount: BigNumber;
+  poolId: number;
+}
+
+interface WithdrawFundsParams {
+  amount: BigNumber;
+  poolId: number;
+}
 
 type QuizContext = {
   activeQuiz: boolean;
@@ -37,6 +46,18 @@ type QuizContext = {
   setNFTInfo: React.Dispatch<React.SetStateAction<NFTInfo>>;
 
   reset: () => void;
+  depositFunds: ({
+    amount,
+    poolId,
+  }: DepositFundsParams) => Promise<ethers.ContractTransaction | undefined>;
+  userTokenBalance: string;
+  userDepositedBalance: string;
+  poolBalance: string;
+  makeRefferal: () => Promise<ethers.ContractTransaction | undefined>;
+  withdrawlFunds: ({
+    amount,
+    poolId,
+  }: WithdrawFundsParams) => Promise<ethers.ContractTransaction | undefined>;
 };
 
 export const QuizContext = React.createContext<QuizContext>({} as QuizContext);
@@ -59,7 +80,7 @@ const QuizContextProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     setActiveChainId(chain?.id);
   }, [chain?.id]);
-  const signer = useEthersSigner(activeChain);
+  const signer = useEthersSigner({ chainId: activeChain });
 
   useEffect(() => {
     if (!signer) return;
@@ -69,25 +90,29 @@ const QuizContextProvider = ({ children }: { children: ReactNode }) => {
           tokenAddress,
           tokenAbi
         );
-        const balance = await degoTokenContract.balanceOf(address);
-        console.log('balance', ethers.utils.formatEther(balance));
-        setUserTokenBalance(ethers.utils.formatEther(balance));
+        if (degoTokenContract) {
+          const balance = await degoTokenContract.balanceOf(address);
+          console.log('balance', ethers.utils.formatEther(balance));
+          setUserTokenBalance(ethers.utils.formatEther(balance));
+        }
 
         const contractInstance = await getContractInstance(
           mainContractAddress,
           mainContractABI
         );
 
-        const depositedBalance = await contractInstance.userBalance(address);
-        console.log(
-          'depositedBalance',
-          ethers.utils.formatEther(depositedBalance)
-        );
+        if (contractInstance) {
+          const depositedBalance = await contractInstance.userBalance(address);
+          console.log(
+            'depositedBalance',
+            ethers.utils.formatEther(depositedBalance)
+          );
 
-        const poolBalance = await contractInstance.poolAmount(1);
-        console.log('poolBalance', ethers.utils.formatEther(poolBalance));
-        setPoolBalance(ethers.utils.formatEther(poolBalance));
-        setUserDepositedBalance(ethers.utils.formatEther(depositedBalance));
+          const poolBalance = await contractInstance.poolAmount(1);
+          console.log('poolBalance', ethers.utils.formatEther(poolBalance));
+          setPoolBalance(ethers.utils.formatEther(poolBalance));
+          setUserDepositedBalance(ethers.utils.formatEther(depositedBalance));
+        }
       };
       fetchBalance();
     }
@@ -99,16 +124,27 @@ const QuizContextProvider = ({ children }: { children: ReactNode }) => {
         mainContractAddress,
         mainContractABI
       );
-      const tx = await contractInstance.createUser();
-      await tx.wait();
-      return tx;
+      if (contractInstance) {
+        const tx = await contractInstance.createUser();
+        await tx.wait();
+        return tx;
+      }
     } catch (error) {
       console.log(error);
     }
   };
-  const getContractInstance = async (contractAddress: string, contractAbi) => {
+  interface ContractInstance {
+    address: string;
+    abi: ethers.ContractInterface;
+    signer: ethers.Signer;
+  }
+
+  const getContractInstance = async (
+    contractAddress: string,
+    contractAbi: ethers.ContractInterface
+  ): Promise<ethers.Contract | undefined> => {
     try {
-      let contractInstance = new ethers.Contract(
+      const contractInstance: ethers.Contract = new ethers.Contract(
         contractAddress,
         contractAbi,
         signer
@@ -119,13 +155,23 @@ const QuizContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const depositFunds = async (amount, poolId) => {
+  interface DepositFundsParams {
+    amount: BigNumber;
+    poolId: number;
+  }
+
+  const depositFunds = async ({
+    amount,
+    poolId,
+  }: DepositFundsParams): Promise<ethers.ContractTransaction | undefined> => {
     try {
       const degoTokenContract = await getContractInstance(
         tokenAddress,
         tokenAbi
       );
-      //make amount as per decimals
+      if (!degoTokenContract) return;
+
+      // Make amount as per decimals
       amount = BigNumber.from(amount).mul(
         BigNumber.from(10).pow(await degoTokenContract.decimals())
       );
@@ -141,6 +187,7 @@ const QuizContextProvider = ({ children }: { children: ReactNode }) => {
         mainContractAddress,
         mainContractABI
       );
+      if (!contractInstance) return;
 
       const tx = await contractInstance.deposit(amount, poolId, {
         from: address,
@@ -153,12 +200,22 @@ const QuizContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const withdrawlFunds = async (amount, poolId) => {
+  interface WithdrawFundsParams {
+    amount: BigNumber;
+    poolId: number;
+  }
+
+  const withdrawlFunds = async ({
+    amount,
+    poolId,
+  }: WithdrawFundsParams): Promise<ethers.ContractTransaction | undefined> => {
     try {
       const contractInstance = await getContractInstance(
         mainContractAddress,
         mainContractABI
       );
+
+      if (!contractInstance) return;
 
       const tx = await contractInstance.withdraw(amount, poolId, {
         from: address,

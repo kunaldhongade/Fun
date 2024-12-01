@@ -1,6 +1,5 @@
 import { Tab } from '@headlessui/react';
 import React, { useState } from 'react';
-import { AiFillStar } from 'react-icons/ai';
 import { BsCalendarCheck } from 'react-icons/bs';
 import { RxCopy } from 'react-icons/rx';
 import { useAccount } from 'wagmi';
@@ -16,10 +15,10 @@ import RadioOption from '@/components/radio/RadioOption';
 import TabGroup from '@/components/tabs/TabGroup';
 import TabPanel from '@/components/tabs/TabPanel';
 import TabPanels from '@/components/tabs/TabPanels';
-import Dialog from '@/dialog/Dialog';
 
-import { useQuizContext } from '@/features/Game/contexts/QuizContext';
+import Dialog from '@/dialog/Dialog';
 import { paymentTypes } from '@/features/Game/constants/paymentTypes';
+import { useQuizContext } from '@/features/Game/contexts/QuizContext';
 import { addressFormatter } from '@/features/Game/lib/addressFormatter';
 
 const PaymentTypes = () => {

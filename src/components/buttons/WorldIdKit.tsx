@@ -1,10 +1,9 @@
 'use client'; // for Next.js app router
 import {
   IDKitWidget,
-  VerificationLevel,
   ISuccessResult,
+  VerificationLevel,
 } from '@worldcoin/idkit';
-
 import React from 'react';
 
 const WorldIdKit = () => {
@@ -28,14 +27,12 @@ const WorldIdKit = () => {
   return (
     <>
       <IDKitWidget
-        app_id={process.env.NEXT_PUBLIC_WLD_CLIENT_ID} // obtained from the Developer Portal
-        action="verify-identity" // obtained from the Developer Portal
+        app_id={`app_${process.env.NEXT_PUBLIC_WLD_CLIENT_ID || 'default'}`} // obtained from the Developer Portal
+        action='verify-identity' // obtained from the Developer Portal
         onSuccess={onSuccess} // callback when the modal is closed
         handleVerify={handleVerify} // callback when the proof is received
         verification_level={VerificationLevel.Orb}
-      >
-       
-      </IDKitWidget>
+      ></IDKitWidget>
     </>
   );
 };

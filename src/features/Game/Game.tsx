@@ -1,9 +1,8 @@
-import { Capacitor } from '@capacitor/core';
-import { Tab } from '@headlessui/react';
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
+
+import WorldIdKit from '@/components/buttons/WorldIdKit';
 import Carousel from '@/components/carousel/Carousel';
 import Menu from '@/components/menu/Menu';
 import Profile from '@/components/profiles/Profile';
@@ -16,25 +15,18 @@ import InviteFriends from '@/features/Game/components/Quiz/InviteFriends';
 import PlayersInfiniteScroll from '@/features/Game/components/Quiz/PlayersInfiniteScroll';
 import Quiz from '@/features/Game/components/Quiz/Quiz';
 import QuizCard from '@/features/Game/components/Quiz/QuizCard';
-import { categories } from '@/features/Game/constants/categories';
 import { NFTs } from '@/features/Game/constants/NFTs';
 import { players } from '@/features/Game/constants/players';
 import { questions } from '@/features/Game/constants/questions';
 import {
-  trendingQuizzes,
   tierQuizzes,
+  trendingQuizzes,
 } from '@/features/Game/constants/quizzes';
 import { useQuizContext } from '@/features/Game/contexts/QuizContext';
 import { useTabsContext } from '@/features/Game/contexts/TabsContext';
-import StoryBar from '@/components/story/StoryBar';
-import { storyData } from '@/constants/mocks/storiesMock';
-import TextField from '../../components/inputs/TextField';
-import WorldIdKit from '@/components/buttons/WorldIdKit';
-
-import Image from 'next/image';
 
 const Game = () => {
-  const { account } = useAccount();
+  useAccount();
   const {
     setActiveStep: setActiveQuizStep,
     setPreQuestions,
@@ -51,17 +43,17 @@ const Game = () => {
 
     const category = trendingQuizzes[quizIdentifier].category;
     const NFTInfo =
-      NFTs[category.player?.name || category.team?.name || 'Lebron James'];
+      NFTs[category.player?.name || category.team?.name || 'LeBron James'];
 
     setPreQuestions({
-      NFTFlowId: NFTInfo[Math.floor(Math.random() * NFTInfo?.length ?? 0)],
+      NFTFlowId: NFTInfo[Math.floor(Math.random() * NFTInfo.length)],
       players: players,
       requiredBet: trendingQuizzes[quizIdentifier].entryPrice,
       categoryImage: trendingQuizzes[quizIdentifier].image,
     });
 
     setQuestions(
-      questions[category.player?.name || category.team?.name || 'Lebron James']
+      questions[category.player?.name || category.team?.name || 'LeBron James']
     );
   };
 
@@ -74,7 +66,7 @@ const Game = () => {
       NFTs[category.player?.name || category.team?.name || 'Lebron James'];
 
     setPreQuestions({
-      NFTFlowId: NFTInfo[Math.floor(Math.random() * NFTInfo?.length ?? 0)],
+      NFTFlowId: NFTInfo[Math.floor(Math.random() * NFTInfo.length)],
       players: players,
       requiredBet: tierQuizzes[quizIdentifier].entryPrice,
       categoryImage: tierQuizzes[quizIdentifier].image,
@@ -89,7 +81,6 @@ const Game = () => {
     return (
       <>
         <section className='mb-3 max-w-[95vw] space-y-9 mobile-demo:w-[450px]'>
-
           <WorldIdKit />
 
           {/* Trending and Tier Quizzes */}

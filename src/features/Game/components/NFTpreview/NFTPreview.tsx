@@ -8,8 +8,8 @@ import NextImage from '@/components/NextImage';
 import PercentageBar from '@/components/percentages/PercentageBar';
 
 import { NFTMedia } from '@/features/Game/constants/NFTs';
-import { NFTInfo } from '@/features/Game/types/Types';
 import { useQuizContext } from '@/features/Game/contexts/QuizContext';
+import { NFTInfo } from '@/features/Game/types/Types';
 
 type Props = {
   setShowNFTPreview: React.Dispatch<React.SetStateAction<boolean>>;

@@ -7,8 +7,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import clsxm from '@/lib/clsxm';
 
 import { NFTMedia } from '@/features/Game/constants/NFTs';
-import { NFTInfo } from '@/features/Game/types/Types';
 import { useQuizContext } from '@/features/Game/contexts/QuizContext';
+import { NFTInfo } from '@/features/Game/types/Types';
 
 type Props = {
   className?: string;

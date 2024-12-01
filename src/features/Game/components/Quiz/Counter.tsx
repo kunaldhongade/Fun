@@ -16,13 +16,13 @@ type Props = {
 const Counter = ({ onCountEnd, initialValue = 30 }: Props) => {
   const [counter, setCounter] = useState(0);
 
-  const countInterval: MutableRefObject<NodeJS.Timer | undefined> =
+  const countInterval: MutableRefObject<NodeJS.Timeout | undefined> =
     useRef(undefined);
 
   const startCount = useCallback(() => {
     countInterval.current = setInterval(() => {
       if (counter <= 0) {
-        clearInterval(countInterval.current);
+        clearInterval(countInterval.current as NodeJS.Timeout);
         return;
       }
       setCounter((prevCounter) => prevCounter - 1);

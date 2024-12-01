@@ -1,3 +1,4 @@
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import React, { useState } from 'react';
 
 import Button from '@/components/buttons/Button';
@@ -8,7 +9,6 @@ import Loading from '@/components/SVGs/Loading';
 import { useWeb3Context } from '@/contexts/Web3';
 import Dialog from '@/dialog/Dialog';
 import DialogTitle from '@/dialog/DialogTitle';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 type Props = {
   setSelectedAuth: React.Dispatch<

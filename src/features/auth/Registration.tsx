@@ -1,3 +1,4 @@
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import React, { useState } from 'react';
 
 import Button from '@/components/buttons/Button';
@@ -5,10 +6,8 @@ import OnDarkLogo from '@/components/logos/OnDarkLogo';
 import NextImage from '@/components/NextImage';
 import Loading from '@/components/SVGs/Loading';
 
-import { useWeb3Context } from '@/contexts/Web3';
 import Dialog from '@/dialog/Dialog';
 import DialogTitle from '@/dialog/DialogTitle';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 type Props = {
   setSelectedAuth: React.Dispatch<
@@ -41,7 +40,7 @@ export default function Login({ setSelectedAuth }: Props) {
                 <ConnectButton />
                 <span className='mt-6'>Or use email </span>
                 <input
-                  className='mt-6 w-full rounded-full py-3.5 px-4 text-black hover:border-primary-500'
+                  className='mt-6 w-full rounded-full px-4 py-3.5 text-black hover:border-primary-500'
                   type='email'
                   name='email'
                   required

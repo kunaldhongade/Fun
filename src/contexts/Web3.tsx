@@ -7,7 +7,6 @@ import * as fcl from '@onflow/fcl';
 import { init } from '@onflow/fcl-wc';
 import { Magic } from 'magic-sdk';
 import router from 'next/router';
-
 import {
   createContext,
   MutableRefObject,

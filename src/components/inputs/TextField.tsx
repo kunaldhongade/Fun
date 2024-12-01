@@ -25,7 +25,7 @@ const TextField = ({
     <div className={clsxm(className, 'relative w-full')}>
       <div
         className={clsxm(
-          startAdornment && 'pl-4',
+          startAdornment ? 'pl-4' : '',
           'pointer-events-none absolute inset-y-0 left-0 flex items-center'
         )}
       >
@@ -41,7 +41,7 @@ const TextField = ({
         type='text'
         id='main-search'
         className={clsxm(
-          startAdornment && '!pl-12',
+          startAdornment ? '!pl-12' : '',
           'w-full rounded-lg border border-gray-300 bg-gray-50 p-3.5 text-sm text-gray-900',
           'focus:border-blue-500 focus:ring-blue-500',
           inputClassName
@@ -52,7 +52,7 @@ const TextField = ({
       />
       <div
         className={clsxm(
-          startAdornment && 'pl-4',
+          startAdornment ? 'pl-4' : '',
           'pointer-events-none absolute inset-y-0 right-5 flex items-center',
           endAdornmentClassName
         )}
