@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DunkVerse DApp</title>
+</head>
+<body>
+    <h1>DunkVerse DApp</h1>
+    <div>
+        <h2>Deposit Ether</h2>
+        <input type="text" id="depositAmount" placeholder="Amount in Ether">
+        <button onclick="depositEther()">Deposit</button>
+    </div>
+    <div>
+        <h2>Purchase NFT</h2>
+        <input type="text" id="momentID" placeholder="Moment ID">
+        <button onclick="purchaseNFT()">Purchase</button>
+    </div>
+    <div>
+        <h2>Check Balance</h2>
+        <button onclick="checkBalance()">Check Balance</button>
+        <p id="balanceResult"></p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+{
+  "compiler": {
+    "version": "0.8.26+commit.8a97fa7a"
+  },
+  "language": "Solidity",
+  "output": {
+    "abi": [
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "momentID",
+            "type": "uint256"
+          }
+        ],
+        "name": "getPrice",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "momentID",
+            "type": "uint256"
+          }
+        ],
+        "name": "purchase",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "momentID",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "recipient",
+            "type": "address"
+          }
+        ],
+        "name": "transferMoment",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    "devdoc": {
+      "kind": "dev",
+      "methods": {},
+      "version": 1
+    },
+    "userdoc": {
+      "kind": "user",
+      "methods": {},
+      "version": 1
+    }
+  },
+  "settings": {
+    "compilationTarget": {
+      "contracts/BettingPool.sol": "ITopShot"
+    },
+    "evmVersion": "cancun",
+    "libraries": {},
+    "metadata": {
+      "bytecodeHash": "ipfs"
+    },
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "remappings": []
+  },
+  "sources": {
+    "contracts/BettingPool.sol": {
+      "keccak256": "0xd425e57ed44bb3301430750a5114e376162bcbe95d35c52e9b0e643d335244ad",
+      "license": "MIT",
+      "urls": [
+        "bzz-raw://53bfba3403c689ad092f708ca911e0a1fcfbfd9c9fc21cf93a8046fed3a03af7",
+        "dweb:/ipfs/QmXCwsYDJFukupcQBegRjiD774MjuBYjTW1ovAqfnUiSKE"
+      ]
+    }
+  },
+  "version": 1
+}

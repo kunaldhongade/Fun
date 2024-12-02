@@ -1,0 +1,13 @@
+[package]
+name = "dunkverse"
+version = "0.0.0"
+
+[dependencies]
+AptosFramework = {git = "https://github.com/aptos-labs/aptos-core.git", rev = "mainnet", subdir = "aptos-move/framework/aptos-framework"}
+AptosTokenObjects = { git = "https://github.com/aptos-labs/aptos-core.git", rev = "mainnet", subdir = "aptos-move/framework/aptos-token-objects"}
+
+
+[addresses]
+my_addrx = "53ebd2be721663376dc5a39997d54f160bfb4195da6db5edb97fab2927e90c37"
+std = "0x1"
+std4="0x4"
